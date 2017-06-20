@@ -159,9 +159,7 @@ open class EPContactsPicker: UITableViewController, UISearchResultsUpdating, UIS
                 let alert = UIAlertController(title: "Unable to access contacts", message: "\(productName) does not have access to contacts. Kindly enable it in privacy settings ", preferredStyle: UIAlertControllerStyle.alert)
                 let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: {  action in
                     completion([], error)
-                    self.dismiss(animated: true, completion: {
-                        self.contactDelegate?.epContactPicker(self, didContactFetchFailed: error)
-                    })
+                    self.contactDelegate?.epContactPicker(self, didContactFetchFailed: error)
                 })
                 alert.addAction(okAction)
                 self.present(alert, animated: true, completion: nil)
@@ -278,30 +276,27 @@ open class EPContactsPicker: UITableViewController, UISearchResultsUpdating, UIS
     
     override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let cell = tableView.cellForRow(at: indexPath) as! EPContactCell
-        let selectedContact =  cell.contact!
-        if multiSelectEnabled {
-            //Keeps track of enable=ing and disabling contacts
-            if cell.accessoryType == UITableViewCellAccessoryType.checkmark {
-                cell.accessoryType = UITableViewCellAccessoryType.none
-                selectedContacts = selectedContacts.filter(){
-                    return selectedContact.contactId != $0.contactId
-                }
-            }
-            else {
-                cell.accessoryType = UITableViewCellAccessoryType.checkmark
-                selectedContacts.append(selectedContact)
-            }
+      let cell = tableView.cellForRow(at: indexPath) as! EPContactCell
+      let selectedContact =  cell.contact!
+      if multiSelectEnabled {
+          //Keeps track of enable=ing and disabling contacts
+          if cell.accessoryType == UITableViewCellAccessoryType.checkmark {
+              cell.accessoryType = UITableViewCellAccessoryType.none
+              selectedContacts = selectedContacts.filter(){
+                  return selectedContact.contactId != $0.contactId
+              }
+          }
+          else {
+              cell.accessoryType = UITableViewCellAccessoryType.checkmark
+              selectedContacts.append(selectedContact)
+          }
+      } else {
+          //Single selection code
+        resultSearchController.isActive = false
+        DispatchQueue.main.async {
+          self.contactDelegate?.epContactPicker(self, didSelectContact: selectedContact)
         }
-        else {
-            //Single selection code
-			resultSearchController.isActive = false
-			self.dismiss(animated: true, completion: {
-				DispatchQueue.main.async {
-					self.contactDelegate?.epContactPicker(self, didSelectContact: selectedContact)
-				}
-			})
-        }
+      }
     }
     
     override open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -327,15 +322,11 @@ open class EPContactsPicker: UITableViewController, UISearchResultsUpdating, UIS
     // MARK: - Button Actions
     
     func onTouchCancelButton() {
-        dismiss(animated: true, completion: {
-            self.contactDelegate?.epContactPicker(self, didCancel: NSError(domain: "EPContactPickerErrorDomain", code: 2, userInfo: [ NSLocalizedDescriptionKey: "User Canceled Selection"]))
-        })
+      self.contactDelegate?.epContactPicker(self, didCancel: NSError(domain: "EPContactPickerErrorDomain", code: 2, userInfo: [ NSLocalizedDescriptionKey: "User Canceled Selection"]))
     }
     
     func onTouchDoneButton() {
-        dismiss(animated: true, completion: {
-            self.contactDelegate?.epContactPicker(self, didSelectMultipleContacts: self.selectedContacts)
-        })
+      self.contactDelegate?.epContactPicker(self, didSelectMultipleContacts: self.selectedContacts)
     }
     
     // MARK: - Search Actions
