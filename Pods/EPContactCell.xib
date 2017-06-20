@@ -89,6 +89,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="button" destination="N2X-ij-TK3" id="awa-yb-sB5"/>
                 <outlet property="contactContainerView" destination="Bvt-tZ-NrJ" id="qqg-f5-Xol"/>
                 <outlet property="contactDetailTextLabel" destination="Tqx-Gt-ofy" id="Jlj-TK-UJl"/>
                 <outlet property="contactImageView" destination="mxT-DB-6lI" id="aYl-FS-HAU"/>

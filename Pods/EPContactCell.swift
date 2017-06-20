@@ -15,7 +15,8 @@ class EPContactCell: UITableViewCell {
     @IBOutlet weak var contactImageView: UIImageView!
     @IBOutlet weak var contactInitialLabel: UILabel!
     @IBOutlet weak var contactContainerView: UIView!
-    
+  @IBOutlet weak var button: UIButton!
+  
     var contact: EPContact?
     
     override func awakeFromNib() {
@@ -30,6 +31,10 @@ class EPContactCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+  
+  func setButtonImage(image: UIImage) {
+    button.setImage(image, for: .normal)
+  }
     
     func updateInitialsColorForIndexPath(_ indexpath: IndexPath) {
         //Applies color to Initial Label

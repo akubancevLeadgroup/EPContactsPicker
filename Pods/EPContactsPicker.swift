@@ -42,7 +42,7 @@ open class EPContactsPicker: UITableViewController, UISearchResultsUpdating, UIS
     var resultSearchController = UISearchController()
     var orderedContacts = [String: [CNContact]]() //Contacts ordered in dicitonary alphabetically
     var sortedContactKeys = [String]()
-    
+  open var customButtonImage: UIImage = UIImage()
     var selectedContacts = [EPContact]()
     var filteredContacts = [CNContact]()
     
@@ -252,6 +252,7 @@ open class EPContactsPicker: UITableViewController, UISearchResultsUpdating, UIS
     override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EPContactCell
         cell.accessoryType = UITableViewCellAccessoryType.none
+        cell.setButtonImage(image: customButtonImage)
         //Convert CNContact to EPContact
 		let contact: EPContact
         
