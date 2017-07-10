@@ -253,6 +253,7 @@ open class EPContactsPicker: UITableViewController, UISearchResultsUpdating, UIS
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EPContactCell
         cell.accessoryType = UITableViewCellAccessoryType.none
         cell.setButtonImage(image: customButtonImage)
+      cell.delegate = self
         //Convert CNContact to EPContact
 		let contact: EPContact
         
@@ -264,7 +265,14 @@ open class EPContactsPicker: UITableViewController, UISearchResultsUpdating, UIS
 				return UITableViewCell()
 			}
 
-			contact = EPContact(contact: contactsForSection[(indexPath as NSIndexPath).row])
+          if indexPath.row < contactsForSection.count {
+            contact = EPContact(contact: contactsForSection[(indexPath as NSIndexPath).row])
+          } else {
+            contact = EPContact(contact: CNContact())
+            DispatchQueue.main.async(execute: {
+              self.tableView.reloadData()
+            })
+          }
         }
 		
         if multiSelectEnabled  && selectedContacts.contains(where: { $0.contactId == contact.contactId }) {
@@ -365,4 +373,10 @@ open class EPContactsPicker: UITableViewController, UISearchResultsUpdating, UIS
         })
     }
     
+}
+
+extension EPContactsPicker: EPButtonDelegate {
+  func contactClicked(withContact contact: EPContact) {
+    contactDelegate?.epContactPicker(self, didSelectContact: contact)
+  }
 }

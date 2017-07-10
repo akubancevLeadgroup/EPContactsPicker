@@ -72,7 +72,9 @@
                             <constraint firstAttribute="height" constant="59.5" id="sIK-Jy-6iF"/>
                             <constraint firstAttribute="width" constant="56" id="uS2-Od-rQ3"/>
                         </constraints>
-                        <state key="normal" image="call_cell"/>
+                        <connections>
+                            <action selector="buttonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="q6F-6L-69F"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -99,7 +101,4 @@
             <point key="canvasLocation" x="245" y="321"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="call_cell" width="34" height="34"/>
-    </resources>
 </document>

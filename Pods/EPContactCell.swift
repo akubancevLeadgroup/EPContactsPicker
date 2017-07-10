@@ -16,6 +16,7 @@ class EPContactCell: UITableViewCell {
     @IBOutlet weak var contactInitialLabel: UILabel!
     @IBOutlet weak var contactContainerView: UIView!
   @IBOutlet weak var button: UIButton!
+  weak var delegate: EPButtonDelegate?
   
     var contact: EPContact?
     
@@ -34,6 +35,9 @@ class EPContactCell: UITableViewCell {
   
   func setButtonImage(image: UIImage) {
     button.setImage(image, for: .normal)
+  }
+  @IBAction func buttonClicked(_ sender: Any) {
+    delegate?.contactClicked(withContact: contact!)
   }
     
     func updateInitialsColorForIndexPath(_ indexpath: IndexPath) {
